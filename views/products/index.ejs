@@ -1,0 +1,151 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+	<%- include('../includes/head.ejs') %>
+<body>
+	<%- include('../includes/navigation.ejs') %>
+  <!---->
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<div data-vide-bg="video/video">
+    <div class="container">
+		<div class="banner-info">
+			<h3>It is a long established fact that a reader will be distracted by 
+			the readable </h3>	
+			<div class="search-form">
+				<form action="#" method="post">
+					<input type="text" placeholder="Search..." name="Search...">
+					<input type="submit" value=" " >
+				</form>
+			</div>		
+		</div>	
+    </div>
+</div>
+
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+    <script src="js/jquery.vide.min.js"></script>
+
+
+<!--content-->
+<div class="content-top ">
+	<div class="container ">
+		<div class="spec ">
+			<h3>SkinCare Products</h3>
+			<div class="ser-t">
+				<b></b>
+				<span><i></i></span>
+				<b class="line"></b>
+			</div>
+		</div>
+			<div class="tab-head ">
+				<nav class="nav-sidebar">
+					<ul class="nav tabs ">
+						<!-- <% if(category.length > 0){
+							category.map((categories,index)=>{%>
+								<li class="dropdown ">
+									<a href="#" class="dropdown-toggle  hyper" data-toggle="dropdown" ><span>category<b class="caret"></b></span></a>
+									<ul class="dropdown-menu multi">\
+				
+													<li><a href="kitchen.html"><i class="fa fa-angle-right" aria-hidden="true"></i><%= categories.category %></a></a></li>
+											
+									</ul>
+								</li>
+					  <% }) } %> -->
+						<li class="dropdown ">
+							<a href="#" class="dropdown-toggle  hyper" data-toggle="dropdown" ><span>category<b class="caret"></b></span></a>
+							<ul class="dropdown-menu multi">
+								<div class="row">
+									<div class="col-sm-3">
+										<ul class="multi-column-dropdown">
+											<li><a href="/"><i class="fa fa-angle-right" aria-hidden="true"> All </i></a></li>
+											<% if(category.length > 0){
+												category.map((categories,index)=>{%>
+											<li><a href="/<%= categories.category %>"><i class="fa fa-angle-right" aria-hidden="true"></i><%= categories.category %></a></li>
+											<% }) } %>
+										</ul>
+									
+									</div>
+									<div class="clearfix"></div>
+								</div>	
+							</ul>
+						</li>
+					</ul>
+					
+					
+				</nav>
+				<div class=" tab-content tab-content-t ">
+					<div class="tab-pane active text-style" id="tab1">
+						<div class=" con-w3l">
+							<% if (products.length > 0) { %>
+								<!-- loop -->
+								<% products.map((product, index) => { %>
+									<a href="<%- '/single/'+product._id%>">
+							<div class="col-md-3 m-wthree">
+								<div class="col-m">								
+									<a href="#" data-toggle="modal" data-target="#myModal1" class="offer-img">
+										<img src="<%= product.image_path %>" class="img-responsive" alt="">
+										<div class="offer"><p><span>Offer</span></p></div>
+									</a>
+									<div class="mid-1">
+										<div class="women">
+											<h6><a href="<%- '/single/'+product._id%>"><%= product.product_name %></a></h6>							
+										</div>
+										<div class="mid-2">
+											<p ><label>$<%= product.price %>0.00</label><em class="item_price">$<%= product.price %>.00</em></p>
+											  <!-- <div class="block">
+												<div class="starbox small ghosting"> </div>
+											</div> -->
+											<div class="clearfix"></div>
+										</div>
+										<div class="add">
+										   <button class="btn btn-danger my-cart-btn my-cart-b " data-id="1" data-name="Moong" data-summary="summary 1" data-price="1.50" data-quantity="1" data-image="images/of.png">Add to Cart</button>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+							<% })} %>
+						 </div>
+					</div>
+					
+					
+				</div>
+			</div>
+		
+	</div>
+	</div>
+	</div>
+
+
+<br><br><br><br><br>
+
+
+
+
+
+
+
+
+
+
+
+	<!--footer-->
+	<%- include('../includes/end.ejs') %>
+</body>
+</html>
