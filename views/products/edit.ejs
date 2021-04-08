@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <%- include('../includes/head.ejs') %>
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+    <!---->
+
+    <div class="container mt-3 padding_layout_1">
+      <h2>Update Products</h2>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-body">
+              <% if (errorMessage) { %>
+              <div class="alert alert-warning" role="alert">
+                <%= errorMessage[0].param + ': '+ errorMessage[0].msg %>
+              </div>
+              <% } %>
+              <form method="POST" action="/update">
+                <input
+                  type="hidden"
+                  name="product_id"
+                  value="<%- product_id %>"
+                />
+                <div class="form-group">
+                  <label for="image_path">Image_Path</label>
+                  <input
+                    type="text"
+                    class="field_custom"
+                    name="image_path"
+                    placeholder="Image_Path"
+                    value="<%= image_path %>"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="product_name">Product Name</label>
+                  <input
+                    type="text"
+                    class="field_custom"
+                    name="product_name"
+                    placeholder="Product Name"
+                    value="<%= product_name %>"
+                  />
+                </div>
+                <div class="row">
+                  <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h4>Category</h4>
+                    <select
+                      class="field_custom"
+                      name="category"
+                      id="category"
+                      required
+                    >
+                      <option hidden>Choose</option>
+                      <option value="Toner">Toner</option>
+                      <option value="Essence">Essence</option>
+                      <option value="Serum">Serum</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="amount">Amount</label>
+                  <input
+                    type="number"
+                    class="field_custom"
+                    name="amount"
+                    placeholder="Amount"
+                    value="<%= amount %>"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="price">Price</label>
+                  <input
+                    type="number"
+                    class="field_custom"
+                    name="price"
+                    placeholder="Price"
+                    value="<%= price %>"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="detail">Detail</label>
+                  <input
+                    type="text"
+                    class="field_custom"
+                    name="detail"
+                    placeholder="Detail"
+                    value="<%= detail %>"
+                  />
+                </div>
+                <a href="/products" class="btn btn-secondary"
+                  ><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a
+                >
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- footer -->
+    <%- include('../includes/end.ejs') %>
+  </body>
+</html>

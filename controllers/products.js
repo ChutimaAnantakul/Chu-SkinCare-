@@ -1,122 +1,3 @@
-// const { validationResult } = require('express-validator')
-
-// const mongodb = require('mongodb');
-// const Product = require('../models/products');
-// const ObjectId = mongodb.ObjectId;
-
-
-
-// exports.getSearchProduct = (req, res, next) => {
-
-//     Product.fetchAll()
-//         .then(products => {
-//             res.render('products/search', {
-//                 pageTitle: 'Search Product',
-//                 prods: products,
-//             });
-//         })
-//         .catch(err => {
-//             console.log(err);
-//         });
-// }
-
-// exports.getAddProduct = (req, res, next) => {
-//     const product_name = '';
-//     const price = '';
-//     res.render('products/insert', {
-//         pageTitle: 'Insert Product',
-//         errorMessage: null,
-//         product_name: product_name,
-//         price: price
-//     });
-// };
-
-// exports.postAddProduct = (req, res, next) => {
-//     console.log(req.body);
-//     const { product_name, price } = req.body;
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//         res.render('products/insert', {
-//             pageTitle: 'Insert Product',
-//             errorMessage: errors.array(),
-//             product_name: product_name,
-//             price: price
-//         });
-//     }
-
-//     const product = new Product(product_name, price);
-//     product
-//         .save()
-//         .then(result => {
-//             // console.log(result);
-//             console.log('Created Product');
-//             res.redirect('/products');
-//         })
-//         .catch(err => {
-//             console.log(err);
-//         });
-
-// };
-
-// exports.getUpdateProduct = (req, res, next) => {
-//     console.log(req.params);
-//     const { product_id } = req.params;
-//     let product_name = '';
-//     let price = '';
-
-//     Product.findById(product_id)
-//         .then(product => {
-//             console.log(product);
-//             product_name = product.product_name;
-//             price = product.price;
-//             res.render('products/update', {
-//                 pageTitle: 'Update Product',
-//                 errorMessage: null,
-//                 product_id: product_id,
-//                 product_name: product_name,
-//                 price: price
-//             });
-//         })
-//         .catch(err => console.log(err));
-// };
-
-// exports.postUpdateProduct = (req, res, next) => {
-//     console.log(req.body);
-//     const { product_id, product_name, price } = req.body;
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//         res.render('products/update', {
-//             pageTitle: 'Update Product',
-//             errorMessage: errors.array(),
-//             product_id: product_id,
-//             product_name: product_name,
-//             price: price
-//         });
-//     }
-
-//     const product = new Product(product_name, price, new ObjectId(product_id));
-//     product
-//         .save()
-//         .then(result => {
-//             console.log('Update Product');
-//             res.redirect('/products');
-//         })
-//         .catch(err => console.log(err));
-// };
-
-// exports.getDeleteProduct = (req, res, next) => {
-//     const { product_id } = req.params;
-//     console.log(product_id);
-//     Product.deleteById(product_id)
-//         .then(() => {
-//             console.log('Delete Product');
-//             res.redirect('/products');
-//         })
-//         .catch(err => console.log(err));
-// };
-
-
-
 
 const { validationResult } = require("express-validator");
 
@@ -127,26 +8,7 @@ const Categories = require("../models/categories");
 const ObjectId = mongodb.ObjectId;
 
 
-
-
-// exports.viewAllProduct = (req, res, next) => {
-//   Product.fetchAll()
-//     .then((products) => {
-//       Categories.fetchAll().then((categories) => {
-//         Cart.fetchAll().then((cart) => {
-//           res.render("products/all_products", {
-//             pageTitle: "Products",
-//             products: products,
-//             categories: categories,
-//             product_cart: cart,
-//           });
-//         });
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// };
+//index
 exports.indexView = (req, res, next) => {
   Product.fetchAll()
     .then((products) => {
@@ -166,36 +28,27 @@ exports.indexView = (req, res, next) => {
     });     
 };
 
-exports.showCart = (req, res, next) => {
+//cart
+exports.cartUserView = (req, res, next) => {
   Cart.fetchAll()
-    .then((carts) => {
-      res.render("products/wishlist", {
-        pageTitle: "Cart",
-        product_cart: carts,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
+  .then((data)=>{
+    console.log(data)
+    res.render("products/cartUser",{
+      pageTitle: 'User Cart',
+      product_cart:data,
+      errorMessage:null,
     });
+  })
+  .catch((err) =>{console.log(err)});
+ 
 };
 
-exports.showDetail = (req, res, next) => {
-  Cart.fetchAll()
-    .then((carts) => {
-      res.render("products/single", {
-        pageTitle: "Detail",
-        product_cart: carts,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
 
-exports.viewCreate = (req, res, next) => {
+//adminCreate
+exports.adminCreate = (req, res, next) => {
   Cart.fetchAll()
     .then((carts) => {
-      res.render("products/create_product", {
+      res.render("products/admincreateproduct.ejs", {
         pageTitle: "Create",
         product_cart: carts,
       });
@@ -205,54 +58,59 @@ exports.viewCreate = (req, res, next) => {
     });
 };
 
+//adminCreate
 exports.postAddProduct = (req, res, next) => {
-  const { product_name, category, price, amount, detail } = req.body;
-  const { filename } = req.file;
-  let path = "/images/" + filename;
+  const { image_path, product_name, category, amount, price, detail } = req.body;
+  // const { filename } = req.file;
+  // let path = "/images/" + filename;
   const errors = validationResult(req);
 
   const product = new Product(
+    image_path,
     product_name,
     category,
-    price,
     amount,
+    price,
     detail,
-    path
+    
   );
   product
     .save()
     .then((result) => {
-      res.redirect("/stock");
+      res.redirect("/adminproduct");
     })
     .catch((err) => {
       console.log(err);
     });
 };
 
+//AdmindeleteProduct
 exports.deleteProduct = (req, res, next) => {
   const { product_id } = req.params;
   Product.deleteById(product_id)
     .then(() => {
-      res.redirect("/stock");
+      res.redirect("/adminproduct");
     })
     .catch((err) => console.log(err));
 };
 
+//deleteProductCart
 exports.deleteProductCart = (req, res, next) => {
   const { name } = req.params;
   Cart.deleteByName(name)
     .then(() => {
-      res.redirect("/wishlist");
+      res.redirect("/userCart");
     })
     .catch((err) => console.log(err));
 };
 
-exports.adminStock = (req, res, next) => {
+//adminProduct
+exports.adminProduct = (req, res, next) => {
   Product.fetchAll()
     .then((products) => {
       Cart.fetchAll().then((carts) => {
-        res.render("products/admin_stock", {
-          pageTitle: "Stock",
+        res.render("products/adminproducts", {
+          pageTitle: "admin product",
           products: products,
           product_cart: carts,
         });
@@ -263,25 +121,7 @@ exports.adminStock = (req, res, next) => {
     });
 };
 
-exports.viewAllProduct = (req, res, next) => {
-  Product.fetchAll()
-    .then((products) => {
-      Categories.fetchAll().then((category) => {
-        Cart.fetchAll().then((cart) => {
-          res.render("products/offer", {
-            pageTitle: "Products",
-            products: products,
-            category: category,
-            product_cart: cart,
-          });
-        });
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
+//category
 exports.viewProductByCategories = (req, res, next) => {
   const { category } = req.params;
   Product.findByCategories(category)
@@ -306,11 +146,12 @@ exports.viewProductByCategories = (req, res, next) => {
     });
 };
 
+//adminEditProduct
 exports.adminEdit = (req, res, next) => {
   const { product_id } = req.params;
   Product.findById(product_id)
     .then((product) => {
-      Categories.fetchAll().then((category) => {
+      Categories.fetchAll().then((categories) => {
         Cart.fetchAll().then((cart) => {
           product_name = product.product_name;
           price = product.price;
@@ -325,7 +166,7 @@ exports.adminEdit = (req, res, next) => {
             price: price,
             amount: product.amount,
             detail: product.detail,
-            path: product.path,
+            image_path: product.image_path,
             product_cart: cart,
           });
         });
@@ -334,6 +175,7 @@ exports.adminEdit = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+//productDetail
 exports.productDetail = (req, res, next) => {
   const { product_id } = req.params;
   Product.findById(product_id)
@@ -349,7 +191,7 @@ exports.productDetail = (req, res, next) => {
           price: price,
           amount: product.amount,
           detail: product.detail,
-          path: product.path,
+          image_path: product.image_path,
           product_cart: cart,
         });
       });
@@ -357,17 +199,19 @@ exports.productDetail = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
+//addToCart
 exports.addToCart = (req, res, next) => {
-  const { add_to_cart, amount } = req.body;
+  const { add_to_cart } = req.body;
   Product.findByName(add_to_cart).then((product) => {
     product_name = product.product_name;
+    amount = product.amount;
     price = product.price;
-    path = product.path;
-    const cart = new Cart(product_name, price, amount, path);
+    image_path = product.image_path;
+    const cart = new Cart(product_name, amount, price, image_path);
     cart
       .save()
       .then((result) => {
-        res.redirect("/products");
+        res.redirect("/");
       })
       .catch((err) => {
         console.log(err);
@@ -375,60 +219,35 @@ exports.addToCart = (req, res, next) => {
   });
 };
 
+//postUpdateProduct admin
 exports.postUpdateProduct = (req, res, next) => {
-  const {
-    product_id,
-    product_name,
-    price,
-    amount,
-    detail,
-    category,
-  } = req.body;
-  const { filename } = req.file;
-  let path = "/images/" + filename;
+  console.log(req.body);
+  const { image_path, product_name, category, price, amount, detail, product_id } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    res.render("products/edit", {
-      pageTitle: "Edit",
-      errorMessage: errors.array(),
-      product_id: product_id,
-      product_name: product_name,
-      price: price,
-      amount: amount,
-      detail: detail,
-    });
+      res.render('products/edit', {
+          pageTitle: 'Update Product',
+          errorMessage: errors.array(),
+          image_path: image_path,
+          product_name: product_name,
+          category: category,
+          amount: amount,
+          price: price,
+          detail: detail,
+          product_id: product_id
+      });
   }
 
-  const product = new Product(
-    product_name,
-    category,
-    price,
-    amount,
-    detail,
-    path,
-    new ObjectId(product_id)
-  );
+  const product = new Product(image_path, product_name, category, amount, price, detail, new ObjectId(product_id));
   product
-    .save()
-    .then((result) => {
-      console.log("Update Product");
-      res.redirect("/stock");
-    })
-    .catch((err) => console.log(err));
+      .save()
+      .then(result => {
+          console.log('Update Product');
+          res.redirect('/adminproduct');
+      })
+      .catch(err => console.log(err));
 };
 
-exports.productUpdateCategories = (req, res, next) => {
-  const { category } = req.body;
-  const errors = validationResult(req);
 
-  const product = new Product("update", category);
-  product
-    .save()
-    .then((result) => {
-      console.log("Update Product");
-      res.redirect("/stock");
-    })
-    .catch((err) => console.log(err));
-};
 
 //--------------------------->  End Section
